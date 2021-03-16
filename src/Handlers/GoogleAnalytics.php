@@ -110,9 +110,13 @@ class GoogleAnalytics extends BaseHandler {
     $tags = [];
     foreach ($items as $product) {
       $view = $product->getGoogleAnalyticsImpression();
-      $tags = array_merge($tags, $view['#tags']);
-      unset($view['#tags']);
-      $views[] = $view;
+
+      $view = $product->getGoogleAnalyticsImpression();
+      if ($view) {
+        $tags = array_merge($tags, $view['#tags']);
+        unset($view['#tags']);
+        $views[] = $view;
+      }
     }
 
     return [

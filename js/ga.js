@@ -3,6 +3,15 @@ events.registerHandler(new function ga() {
 
   this.processEvent = function processEvent(event, details) {
     switch (event) {
+      case 'view_item_list':
+        dataLayer.push({
+          'event': 'view_item_list',
+          'ecommerce': [{
+            'items': details.items,
+          }]
+        });
+        break;
+
       case 'removeFromCart':
         dataLayer.push({
           'event': 'remove_from_cart',
