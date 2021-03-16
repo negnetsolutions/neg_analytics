@@ -1,0 +1,5 @@
+neg_analytics.settings:
+  title: 'Analytics Settings'
+  parent: system.admin_config_services
+  description: 'Configure Analytics Settings'
+  route_name: neg_analytics.settings

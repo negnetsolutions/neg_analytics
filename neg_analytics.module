@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Analytics module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\neg_analytics\Impression;
+
+/**
+ * Implements hook_page_attachments().
+ */
+function neg_analytics_page_attachments(array &$attachments) {
+  Impression::instance()->addAttachments($attachments);
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function neg_analytics_preprocess_page(array &$variables) {
+  Impression::instance()->addLibraryAttachments($variables);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function neg_analytics_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  switch ($form_id) {
+    case 'shopify_add_to_cart_form':
+      $sku = $form['#attributes']['data-variant-sku'];
+      $price = $form['#attributes']['data-variant-price'];
+
+      $form['submit']['#attributes']['onclick'] = "const btn = this; return events.triggerEvent(\"addToCart\", {\"sku\": \"$sku\", \"price\": \"$price\"}, function() { return shopping_cart.addToCart(btn)});";
+      break;
+  }
+}

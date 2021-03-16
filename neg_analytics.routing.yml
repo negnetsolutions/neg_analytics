@@ -1,0 +1,9 @@
+neg_analytics.settings:
+  path: '/admin/config/services/analytics'
+  defaults:
+   _form: '\Drupal\neg_analytics\Form\SettingsForm'
+   _title: 'Shopify product settings'
+  requirements:
+    _permission: 'administer analytics'
+  options:
+    _admin_route: TRUE

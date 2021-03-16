@@ -1,0 +1,3 @@
+administer analytics:
+  title: 'Administer Analytics Settings'
+  description: 'Allow to access the administration form to configure Analytics Settings.'

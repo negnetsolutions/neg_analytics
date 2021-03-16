@@ -1,0 +1,22 @@
+events:
+  version: 0.01
+  js:
+    js/events.js: {}
+pinterest_analytics:
+  version: 0.01
+  js:
+    js/pinterest.js: {}
+  dependencies:
+    - neg_analytics/events
+google_analytics:
+  version: 0.01
+  js:
+    js/ga.js: {}
+  dependencies:
+    - neg_analytics/events
+facebook_analytics:
+  version: 0.01
+  js:
+    js/facebook.js: {}
+  dependencies:
+    - neg_analytics/events

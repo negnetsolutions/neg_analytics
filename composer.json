@@ -1,0 +1,9 @@
+{
+  "name": "negnet/neg_analytics",
+  "description": "Drupal8 Analytics Module",
+  "type": "drupal-module",
+  "license": "GPL-3.0+",
+  "require": {
+    "negnet/neg_paragraphs": "master"
+  }
+}
