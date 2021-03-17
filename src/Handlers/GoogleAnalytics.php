@@ -20,9 +20,7 @@ class GoogleAnalytics extends BaseHandler {
       $items = $this->renderProducts($this->productImpressions['list']);
       $this->addEvent([
         'event' => 'view_item_list',
-        'ecommerce' => [
-          'items' => $items['views'],
-        ],
+        'items' => $items['views'],
       ]);
       $tags = array_merge($tags, $items['tags']);
     }
@@ -32,9 +30,7 @@ class GoogleAnalytics extends BaseHandler {
       $items = $this->renderProducts($this->productImpressions['detail']);
       $this->addEvent([
         'event' => 'view_item',
-        'ecommerce' => [
-          'items' => $items['views'],
-        ],
+        'items' => $items['views'],
       ]);
       $tags = array_merge($tags, $items['tags']);
     }
@@ -56,8 +52,10 @@ class GoogleAnalytics extends BaseHandler {
 
     $code = '';
     foreach ($this->events as $event) {
-      $json = json_encode($event);
-      $code .= "dataLayer.push($json);\n";
+      $eventName = $event['event'];
+      $items = $event['items'];
+      $json = json_encode($items);
+      $code .= "gtag('event', '{$eventName}', { items: {$json}});\n";
     }
 
     $this->attachments['#attached']['html_head'][] = [

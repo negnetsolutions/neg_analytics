@@ -4,18 +4,14 @@ events.registerHandler(new function ga() {
   this.processEvent = function processEvent(event, details) {
     switch (event) {
       case 'view_item_list':
-        dataLayer.push({
-          'event': 'view_item_list',
-          'ecommerce': [{
-            'items': details.items,
-          }]
+        gtag('event', 'view_item_list', {
+          items: details.items
         });
         break;
 
       case 'removeFromCart':
-        dataLayer.push({
-          'event': 'remove_from_cart',
-          'ecommerce': [{
+        gtag('event', 'remove_from_cart', {
+          items: [{
             'item_id': details.sku,
             'price': details.price,
             'quantity': details.qty,
@@ -24,9 +20,8 @@ events.registerHandler(new function ga() {
         break;
 
       case 'addToCart':
-        dataLayer.push({
-          'event': 'add_to_cart',
-          'ecommerce': [{
+        gtag('event', 'add_to_cart', {
+          items: [{
             'item_id': details.sku,
             'price': details.price,
             'quantity': details.qty,
@@ -44,11 +39,8 @@ events.registerHandler(new function ga() {
           });
         }
 
-        dataLayer.push({
-          'event': 'begin_checkout',
-          'ecommerce': [{
-            'items': items,
-          }]
+        gtag('event', 'begin_checkout', {
+          items: items
         });
         break;
     }

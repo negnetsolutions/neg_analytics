@@ -25,11 +25,11 @@ class Impression {
         self::$instance->handlers[] = new GoogleAnalytics($id);
       }
 
-      if (($id = Settings::config()->get('facebook_pixel')) !== NULL) {
+      if (strlen($id = Settings::config()->get('facebook_pixel')) > 0) {
         self::$instance->handlers[] = new FacebookAnalytics($id);
       }
 
-      if (($id = Settings::config()->get('pinterest_tag_id')) !== NULL) {
+      if (strlen($id = Settings::config()->get('pinterest_tag_id')) > 0) {
         self::$instance->handlers[] = new PinterestAnalytics($id);
       }
     }
