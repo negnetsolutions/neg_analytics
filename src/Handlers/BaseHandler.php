@@ -8,7 +8,10 @@ namespace Drupal\neg_analytics\Handlers;
 class BaseHandler {
 
   protected $events = [];
-  protected $productImpressions = [];
+  protected $productImpressions = [
+    'detail' => [],
+    'list' => [],
+  ];
   protected $measurementId = NULL;
   protected $attachments;
   protected $library = NULL;
@@ -24,10 +27,6 @@ class BaseHandler {
    * Adds an impression.
    */
   public function addImpression($product, $type) {
-    if (!isset($this->productImpressions[$type])) {
-      $this->productImpressions[$type] = [];
-    }
-
     $this->productImpressions[$type][] = $product;
   }
 

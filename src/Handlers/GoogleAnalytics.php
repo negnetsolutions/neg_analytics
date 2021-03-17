@@ -13,7 +13,7 @@ class GoogleAnalytics extends BaseHandler {
    * Renders product impressions.
    */
   protected function renderImpressions() {
-    $tags = $attachments['#cache']['tags'];
+    $tags = (isset($attachments['#cache']['tags'])) ? $attachments['#cache']['tags'] : [];
 
     // view_item_list.
     if (count($this->productImpressions['list']) > 0) {
