@@ -107,7 +107,7 @@ class GoogleAnalytics extends BaseHandler {
     $views = [];
     $tags = [];
     foreach ($items as $product) {
-      $view = $this->getGoogleAnalyticsProductImpression($product);
+      $view = self::getGoogleAnalyticsProductImpression($product);
 
       if ($view) {
         $tags = array_merge($tags, $view['#tags']);
@@ -125,7 +125,7 @@ class GoogleAnalytics extends BaseHandler {
   /**
    * Get's google analytics view.
    */
-  protected function getGoogleAnalyticsProductImpression($product) {
+  public static function getGoogleAnalyticsProductImpression($product) {
     $variant = $product->getFirstAvailableVariant();
     if (!$variant) {
       return FALSE;

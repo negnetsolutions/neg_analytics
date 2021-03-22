@@ -1,0 +1,9 @@
+services:
+  # Subscriber to the config events, with dependencies injected.
+  # Name of this service.
+  neg_analytics_load_shopify_product_views_event_listener:
+    # Event subscriber class that will listen for the events.
+    class: '\Drupal\neg_analytics\EventSubscriber\LoadMultipleProductViewsSubscriber'
+    # Tagged as an event_subscriber to register this subscriber with the event_dispatch service.
+    tags:
+      - { name: 'event_subscriber' }
