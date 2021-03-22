@@ -107,9 +107,8 @@ class GoogleAnalytics extends BaseHandler {
     $views = [];
     $tags = [];
     foreach ($items as $product) {
-      $view = $product->getGoogleAnalyticsImpression();
+      $view = $this->getGoogleAnalyticsProductImpression($product);
 
-      $view = $product->getGoogleAnalyticsImpression();
       if ($view) {
         $tags = array_merge($tags, $view['#tags']);
         unset($view['#tags']);
@@ -121,6 +120,26 @@ class GoogleAnalytics extends BaseHandler {
       'views' => $views,
       'tags' => $tags,
     ];
+  }
+
+  /**
+   * Get's google analytics view.
+   */
+  protected function getGoogleAnalyticsProductImpression($product) {
+    $variant = $product->getFirstAvailableVariant();
+    if (!$variant) {
+      return FALSE;
+    }
+
+    $item = [
+      'item_name' => $product->get('title')->value,
+      'item_id' => $variant->get('sku')->value,
+      'item_brand' => $product->get('vendor')->value,
+      'price' => $variant->get('price')->value,
+      '#tags' => $product->getCacheTags(),
+    ];
+
+    return $item;
   }
 
 }
