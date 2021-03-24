@@ -19,7 +19,7 @@ class LoadMultipleProductViewsSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      LoadMultipleProductsViewEvent::POSTPROCESS => [
+      'neg_shopify_postprocess_loadmultipleproductsview' => [
         'postProcessProductViews',
         100,
       ],
