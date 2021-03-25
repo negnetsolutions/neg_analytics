@@ -33,7 +33,19 @@ class SettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = Settings::config();
 
-    $form['ga_measurement_id'] = [
+    $form['google_analytics'] = [
+      '#type' => 'details',
+      '#title' => t('Google Analytics'),
+      '#open' => TRUE,
+    ];
+
+    $form['google_analytics']['ga_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable Google Analytics?'),
+      '#default_value' => $config->get('ga_enabled'),
+    ];
+
+    $form['google_analytics']['ga_measurement_id'] = [
       '#type' => 'textfield',
       '#title' => t('GA Measurement ID'),
       '#default_value' => $config->get('ga_measurement_id'),
@@ -41,7 +53,19 @@ class SettingsForm extends ConfigFormBase {
       '#required' => FALSE,
     ];
 
-    $form['facebook_pixel'] = [
+    $form['facebook'] = [
+      '#type' => 'details',
+      '#title' => t('Facebook Pixel'),
+      '#open' => TRUE,
+    ];
+
+    $form['facebook']['pixel_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable Facebook Pixel?'),
+      '#default_value' => $config->get('pixel_enabled'),
+    ];
+
+    $form['facebook']['facebook_pixel'] = [
       '#type' => 'textfield',
       '#title' => t('Facebook Pixel ID'),
       '#default_value' => $config->get('facebook_pixel'),
@@ -49,11 +73,42 @@ class SettingsForm extends ConfigFormBase {
       '#required' => FALSE,
     ];
 
-    $form['pinterest_tag_id'] = [
+    $form['pinterest'] = [
+      '#type' => 'details',
+      '#title' => t('Pinterest'),
+      '#open' => TRUE,
+    ];
+
+    $form['pinterest']['pinterest_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable Pinterest Tracker?'),
+      '#default_value' => $config->get('pinterest_enabled'),
+    ];
+
+    $form['pinterest']['pinterest_tag_id'] = [
       '#type' => 'textfield',
       '#title' => t('Pinterest Tag ID'),
       '#default_value' => $config->get('pinterest_tag_id'),
       '#description' => t('Enter your pinterest tag ID'),
+      '#required' => FALSE,
+    ];
+
+    $form['debug'] = [
+      '#type' => 'details',
+      '#title' => t('Debug Options'),
+    ];
+
+    $form['debug']['filter_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable Domain Filter?'),
+      '#default_value' => $config->get('filter_enabled'),
+    ];
+
+    $form['debug']['filter_domain'] = [
+      '#type' => 'textfield',
+      '#title' => t('Filter Domains'),
+      '#default_value' => $config->get('filter_domain'),
+      '#description' => t('Enter a development domain where analytics should be disabled.'),
       '#required' => FALSE,
     ];
 
@@ -67,9 +122,14 @@ class SettingsForm extends ConfigFormBase {
     // Retrieve the configuration.
     $config = Settings::editableConfig();
 
+    $config->set('ga_enabled', $form_state->getValue('ga_enabled'));
     $config->set('ga_measurement_id', $form_state->getValue('ga_measurement_id'));
+    $config->set('pinterest_enabled', $form_state->getValue('pinterest_enabled'));
     $config->set('pinterest_tag_id', $form_state->getValue('pinterest_tag_id'));
+    $config->set('pixel_enabled', $form_state->getValue('pixel_enabled'));
     $config->set('facebook_pixel', $form_state->getValue('facebook_pixel'));
+    $config->set('filter_enabled', $form_state->getValue('filter_enabled'));
+    $config->set('filter_domain', $form_state->getValue('filter_domain'));
 
     $config->save();
 

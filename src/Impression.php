@@ -21,15 +21,27 @@ class Impression {
     if (self::$instance === FALSE) {
       self::$instance = new self();
 
-      if (($id = Settings::config()->get('ga_measurement_id')) !== NULL) {
+      $filterEnabled = Settings::config()->get('filter_enabled');
+      $filterDomain = Settings::config()->get('filter_domain');
+      if ($filterEnabled && $filterDomain) {
+        $host = \Drupal::request()->getHost();
+        if ($host == $filterDomain) {
+          return self::$instance;
+        }
+      }
+
+      $gaEnabled = Settings::config()->get('ga_enabled');
+      if ($gaEnabled && ($id = Settings::config()->get('ga_measurement_id')) !== NULL) {
         self::$instance->handlers[] = new GoogleAnalytics($id);
       }
 
-      if (strlen($id = Settings::config()->get('facebook_pixel')) > 0) {
+      $fbEnabled = Settings::config()->get('pixel_enabled');
+      if ($fbEnabled && strlen($id = Settings::config()->get('facebook_pixel')) > 0) {
         self::$instance->handlers[] = new FacebookAnalytics($id);
       }
 
-      if (strlen($id = Settings::config()->get('pinterest_tag_id')) > 0) {
+      $pinterestEnabled = Settings::config()->get('pinterest_enabled');
+      if ($pinterestEnabled && strlen($id = Settings::config()->get('pinterest_tag_id')) > 0) {
         self::$instance->handlers[] = new PinterestAnalytics($id);
       }
     }
