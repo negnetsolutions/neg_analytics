@@ -78,6 +78,18 @@ class GoogleAnalytics extends BaseHandler {
     $this->attachments['#attached']['html_head'][] = [
       [
         '#type' => 'html_tag',
+        '#tag' => 'link',
+        '#value' => '',
+        '#attributes' => [
+          'href' => 'https://www.googletagmanager.com',
+          'rel' => 'preconnect',
+        ],
+      ],
+      'google_analytics_preconnect',
+    ];
+    $this->attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
         '#tag' => 'script',
         '#value' => '',
         '#attributes' => [

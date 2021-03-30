@@ -20,6 +20,18 @@ class PinterestAnalytics extends BaseHandler {
     $this->attachments['#attached']['html_head'][] = [
       [
         '#type' => 'html_tag',
+        '#tag' => 'link',
+        '#value' => '',
+        '#attributes' => [
+          'href' => 'https://s.pinimg.com',
+          'rel' => 'preconnect',
+        ],
+      ],
+      'pinterest_analytics_preconnect',
+    ];
+    $this->attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
         '#tag' => 'script',
         '#value' => "!function(e){if(!window.pintrk){window.pintrk = function () { window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version=\"3.0\";var t=document.createElement(\"script\");t.async=!0,t.src=e;var r=document.getElementsByTagName(\"script\")[0]; r.parentNode.insertBefore(t,r)}}(\"https://s.pinimg.com/ct/core.js\"); pintrk('load', '{$this->measurementId}', {em: '{$email}'}); pintrk('page');",
         '#attributes' => [],
