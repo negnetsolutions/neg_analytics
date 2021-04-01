@@ -48,7 +48,7 @@ function neg_analytics_form_alter(&$form, FormStateInterface $form_state, $form_
       $sku = $form['#attributes']['data-variant-sku'];
       $price = $form['#attributes']['data-variant-price'];
 
-      $form['submit']['#attributes']['onclick'] = "const btn = this; return events.triggerEvent(\"addToCart\", {\"sku\": \"$sku\", \"price\": \"$price\"}, function() { return shopping_cart.addToCart(btn)});";
+      $form['submit']['#attributes']['onclick'] = "const btn = this; if (typeof events === 'object') { return events.triggerEvent(\"addToCart\", {\"sku\": \"$sku\", \"price\": \"$price\"}, function() { return shopping_cart.addToCart(btn)});} else { return shopping_cart.addToCart(btn); }";
       break;
   }
 }
