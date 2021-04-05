@@ -35,6 +35,7 @@ events.registerHandler(new function ga() {
           let item = details.items[i];
           items.push({
             'item_id': item.sku,
+            'price': item.price,
             'quantity': item.qty
           });
         }
