@@ -12,7 +12,8 @@ events.registerHandler(new function ga() {
       case 'removeFromCart':
         gtag('event', 'remove_from_cart', {
           items: [{
-            'item_id': details.sku,
+            'item_id': details.product_id,
+            'item_variant': details.sku,
             'price': details.price,
             'quantity': details.qty,
           }]
@@ -22,7 +23,8 @@ events.registerHandler(new function ga() {
       case 'addToCart':
         gtag('event', 'add_to_cart', {
           items: [{
-            'item_id': details.sku,
+            'item_id': details.product_id,
+            'item_variant': details.sku,
             'price': details.price,
             'quantity': details.qty,
           }]
@@ -34,7 +36,8 @@ events.registerHandler(new function ga() {
         for (let i = 0; i < details.items.length; i++) {
           let item = details.items[i];
           items.push({
-            'item_id': item.sku,
+            'item_id': item.product_id,
+            'item_variant': item.sku,
             'price': item.price,
             'quantity': item.qty
           });

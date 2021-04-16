@@ -46,9 +46,11 @@ function neg_analytics_form_alter(&$form, FormStateInterface $form_state, $form_
   switch ($form_id) {
     case 'shopify_add_to_cart_form':
       $sku = $form['#attributes']['data-variant-sku'];
+      $productId = $form['#attributes']['data-product-id'];
+      $variantId = $form['#attributes']['data-variant-id'];
       $price = $form['#attributes']['data-variant-price'];
 
-      $form['submit']['#attributes']['onclick'] = "const btn = this; if (typeof events === 'object') { return events.triggerEvent(\"addToCart\", {\"sku\": \"$sku\", \"price\": \"$price\"}, function() { return shopping_cart.addToCart(btn)});} else { return shopping_cart.addToCart(btn); }";
+      $form['submit']['#attributes']['onclick'] = "const btn = this; if (typeof events === 'object') { return events.triggerEvent(\"addToCart\", {\"variant_id\": \"$variantId\", \"product_id\": \"$productId\", \"sku\": \"$sku\", \"price\": \"$price\"}, function() { return shopping_cart.addToCart(btn)});} else { return shopping_cart.addToCart(btn); }";
       break;
   }
 }

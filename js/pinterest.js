@@ -7,7 +7,8 @@ events.registerHandler(new function ga() {
         pintrk('track', 'AddToCart', {
           line_items: [
             {
-              product_id: details.sku,
+              product_id: details.product_id,
+              product_variant_id: details.variant_id,
               product_price: details.price,
               product_quantity: details.qty
             }
@@ -24,7 +25,8 @@ events.registerHandler(new function ga() {
           let item = details.items[i];
           total += item.price;
           items.push({
-            product_id: item.sku,
+            product_id: item.product_id,
+            product_variant_id: item.variant_id,
             product_quantity: item.qty,
             product_price: item.price
           });
