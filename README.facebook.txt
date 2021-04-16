@@ -14,7 +14,7 @@
 	  value: '{{ total_price | money_without_currency }}',
 	  currency: '{{ shop.currency }}', 
 	  order_id: '{{ order_number }}',
-	  content_ids: [{% for line in order.line_items %}'{{ line.sku }}'{% unless forloop.last == true %}, {% endunless %}{% endfor %}],
+	  content_ids: [{% for line in order.line_items %}'{{ line.product_id }}'{% unless forloop.last == true %}, {% endunless %}{% endfor %}],
 	  content_type: 'product',
 	  num_items: '{{ item_count }}'  
 });
