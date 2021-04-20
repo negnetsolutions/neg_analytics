@@ -144,10 +144,10 @@ class GoogleAnalytics extends BaseHandler {
     }
 
     $item = [
-      'item_name' => $product->get('title')->value,
-      'item_id' => $product->get('product_id')->value,
-      'item_variant' => $variant->get('sku')->value,
-      'item_brand' => $product->get('vendor')->value,
+      'name' => $product->get('title')->value,
+      'id' => $product->get('product_id')->value,
+      'variant' => $variant->get('sku')->value,
+      'brand' => $product->get('vendor')->value,
       'price' => $variant->get('price')->value,
       '#tags' => $product->getCacheTags(),
     ];
