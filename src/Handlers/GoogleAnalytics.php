@@ -2,6 +2,8 @@
 
 namespace Drupal\neg_analytics\Handlers;
 
+use Drupal\neg_analytics\Settings;
+
 /**
  * GA Handler.
  */
@@ -100,15 +102,29 @@ class GoogleAnalytics extends BaseHandler {
       'google_analytics',
     ];
 
-    $this->attachments['#attached']['html_head'][] = [
-      [
-        '#type' => 'html_tag',
-        '#tag' => 'script',
-        '#value' => "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '{$this->measurementId}');",
-        '#attributes' => [],
-      ],
-      'google_analytics_inline',
-    ];
+    $customCode = Settings::config()->get('ga_custom_code');
+    if (strlen($customCode) > 0) {
+      $this->attachments['#attached']['html_head'][] = [
+        [
+          '#type' => 'html_tag',
+          '#tag' => 'script',
+          '#value' => $customCode,
+          '#attributes' => [],
+        ],
+        'google_analytics_inline',
+      ];
+    }
+    else {
+      $this->attachments['#attached']['html_head'][] = [
+        [
+          '#type' => 'html_tag',
+          '#tag' => 'script',
+          '#value' => "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '{$this->measurementId}');",
+          '#attributes' => [],
+        ],
+        'google_analytics_inline',
+      ];
+    }
 
   }
 

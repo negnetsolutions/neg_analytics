@@ -53,6 +53,14 @@ class SettingsForm extends ConfigFormBase {
       '#required' => FALSE,
     ];
 
+    $form['google_analytics']['ga_custom_code'] = [
+      '#type' => 'textarea',
+      '#title' => t('GA Custom Tracking Code'),
+      '#default_value' => $config->get('ga_custom_code'),
+      '#description' => t('Optionally enter datalayer portion of analytics tracking code.'),
+      '#required' => FALSE,
+    ];
+
     $form['facebook'] = [
       '#type' => 'details',
       '#title' => t('Facebook Pixel'),
@@ -124,6 +132,7 @@ class SettingsForm extends ConfigFormBase {
 
     $config->set('ga_enabled', $form_state->getValue('ga_enabled'));
     $config->set('ga_measurement_id', $form_state->getValue('ga_measurement_id'));
+    $config->set('ga_custom_code', $form_state->getValue('ga_custom_code'));
     $config->set('pinterest_enabled', $form_state->getValue('pinterest_enabled'));
     $config->set('pinterest_tag_id', $form_state->getValue('pinterest_tag_id'));
     $config->set('pixel_enabled', $form_state->getValue('pixel_enabled'));
