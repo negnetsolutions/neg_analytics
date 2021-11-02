@@ -1,3 +1,12 @@
+// Start Google Analytics.
+if (drupalSettings.neg_analytics.customcode) {
+  eval(drupalSettings.neg_analytics.google.customcode);
+}
+else {
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', drupalSettings.neg_analytics.google.measurementId);
+}
+
+// Register events.
 events.registerHandler(new function ga() {
   const _ = this;
 

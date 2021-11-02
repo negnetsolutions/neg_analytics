@@ -8,15 +8,18 @@ pinterest_analytics:
     js/pinterest.js: {}
   dependencies:
     - neg_analytics/events
+    - core/drupalSettings
 google_analytics:
   version: 0.01
   js:
     js/ga.js: {}
   dependencies:
     - neg_analytics/events
+    - core/drupalSettings
 facebook_analytics:
   version: 0.01
   js:
     js/facebook.js: {}
   dependencies:
     - neg_analytics/events
+    - core/drupalSettings

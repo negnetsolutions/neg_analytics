@@ -104,26 +104,10 @@ class GoogleAnalytics extends BaseHandler {
 
     $customCode = Settings::config()->get('ga_custom_code');
     if (strlen($customCode) > 0) {
-      $this->attachments['#attached']['html_head'][] = [
-        [
-          '#type' => 'html_tag',
-          '#tag' => 'script',
-          '#value' => $customCode,
-          '#attributes' => [],
-        ],
-        'google_analytics_inline',
-      ];
+      $this->attachments['#attached']['drupalSettings']['neg_analytics']['google']['customCode'] = $customCode;
     }
     else {
-      $this->attachments['#attached']['html_head'][] = [
-        [
-          '#type' => 'html_tag',
-          '#tag' => 'script',
-          '#value' => "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '{$this->measurementId}');",
-          '#attributes' => [],
-        ],
-        'google_analytics_inline',
-      ];
+      $this->attachments['#attached']['drupalSettings']['neg_analytics']['google']['measurementId'] = $this->measurementId;
     }
 
   }
