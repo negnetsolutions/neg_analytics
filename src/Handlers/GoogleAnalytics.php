@@ -60,15 +60,9 @@ class GoogleAnalytics extends BaseHandler {
       $code .= "gtag('event', '{$eventName}', { items: {$json}});\n";
     }
 
-    $this->attachments['#attached']['html_head'][] = [
-      [
-        '#type' => 'html_tag',
-        '#tag' => 'script',
-        '#value' => $code,
-        '#attributes' => [],
-      ],
-      'google_analytics_events',
-    ];
+    if (strlen($code) > 0) {
+      $this->attachments['#attached']['drupalSettings']['neg_analytics']['google']['events'] = $code;
+    }
   }
 
   /**

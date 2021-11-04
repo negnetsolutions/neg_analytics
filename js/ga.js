@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', function() {
   // Start Google Analytics.
-  if (drupalSettings.neg_analytics.customcode) {
+  if (drupalSettings.neg_analytics.google.customcode) {
     eval(drupalSettings.neg_analytics.google.customcode);
   }
   else {
@@ -61,4 +61,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
     };
   });
+
+  // Send Events.
+  if (drupalSettings.neg_analytics.google.events) {
+    eval(drupalSettings.neg_analytics.google.events);
+  }
+
 });
