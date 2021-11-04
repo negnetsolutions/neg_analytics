@@ -1,3 +1,4 @@
+window.addEventListener('DOMContentLoaded', function() {
 // Start Pinterest Pixel.
 !function(e){if(!window.pintrk){window.pintrk = function () {
 window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
@@ -53,4 +54,5 @@ events.registerHandler(new function ga() {
     }
 
   };
+});
 });
