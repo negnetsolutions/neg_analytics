@@ -12,6 +12,7 @@ pinterest_analytics:
 google_analytics:
   version: 0.01
   js:
+    https://www.googletagmanager.com/gtag/js: {type: external, attributes: { async: true }}
     js/ga.js: {attributes: { defer: true, async: true} }
   dependencies:
     - neg_analytics/events

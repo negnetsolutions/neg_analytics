@@ -7,6 +7,25 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\neg_analytics\Impression;
+use Drupal\neg_analytics\Settings;
+
+/**
+ * Implements hook_library_info_build().
+ */
+
+function neg_analytics_library_info_alter(&$libraries, $extension) {
+  if ($extension === 'neg_analytics') {
+    if (isset($libraries['google_analytics'])) {
+      $id = Settings::config()->get('ga_measurement_id');
+      $gtag = $libraries['google_analytics']['js']['https://www.googletagmanager.com/gtag/js'];
+      $newJs = [
+        'https://www.googletagmanager.com/gtag/js?id=' . $id => $gtag,
+      ];
+      unset($libraries['google_analytics']['js']['https://www.googletagmanager.com/gtag/js']);
+      $libraries['google_analytics']['js'] = $newJs + $libraries['google_analytics']['js'];
+    }
+  }
+}
 
 /**
  * Implements hook_page_attachments().

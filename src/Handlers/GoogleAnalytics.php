@@ -83,18 +83,6 @@ class GoogleAnalytics extends BaseHandler {
       ],
       'google_analytics_preconnect',
     ];
-    $this->attachments['#attached']['html_head'][] = [
-      [
-        '#type' => 'html_tag',
-        '#tag' => 'script',
-        '#value' => '',
-        '#attributes' => [
-          'async' => 'true',
-          'src' => 'https://www.googletagmanager.com/gtag/js?id=' . $this->measurementId,
-        ],
-      ],
-      'google_analytics',
-    ];
 
     $customCode = Settings::config()->get('ga_custom_code');
     if (strlen($customCode) > 0) {
