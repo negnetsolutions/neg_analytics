@@ -5,7 +5,7 @@ events:
 pinterest_analytics:
   version: 0.01
   js:
-    js/pinterest.js: {attributes: { defer: true, async: true} }
+    js/pinterest.js: {attributes: {async: true} }
   dependencies:
     - neg_analytics/events
     - core/drupalSettings
@@ -13,14 +13,14 @@ google_analytics:
   version: 0.01
   js:
     https://www.googletagmanager.com/gtag/js: {type: external, attributes: { async: true }}
-    js/ga.js: {attributes: { defer: true, async: true} }
+    js/ga.js: {attributes: {async: true} }
   dependencies:
     - neg_analytics/events
     - core/drupalSettings
 facebook_analytics:
   version: 0.01
   js:
-    js/facebook.js: {attributes: { defer: true, async: true} }
+    js/facebook.js: {attributes: {async: true} }
   dependencies:
     - neg_analytics/events
     - core/drupalSettings
