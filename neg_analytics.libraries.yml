@@ -1,7 +1,7 @@
 events:
   version: 0.01
   js:
-    js/events.js: {}
+    js/events.min.js: {minified: true}
 pinterest_analytics:
   version: 0.01
   js:
