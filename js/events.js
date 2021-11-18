@@ -12,9 +12,9 @@ const NegEvents = function events() {
       case 'addToCart':
         if (typeof details.qty == 'undefined') {
           // Try to find actual quantity added.
-          const form = document.querySelector('.shopify-add-to-cart-form');
+          const form = document.querySelector('.shopify-add-to-cart-form[data-variant-id="' + details.variant_id + '"]');
           if (form) {
-            const qty = form.querySelector('.form-item-quantity input').value
+            const qty = form.querySelector('[name="quantity"]').value
             if (qty) {
               details.qty = qty;
             }
