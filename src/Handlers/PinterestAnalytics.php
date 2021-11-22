@@ -29,6 +29,10 @@ class PinterestAnalytics extends BaseHandler {
       ],
       'pinterest_analytics_preconnect',
     ];
+    $this->attachments['#attached']['http_header'][] = [
+      'Link',
+      '<https://s.pinimg.com>; rel="preconnect"'
+    ];
 
     $this->attachments['#attached']['drupalSettings']['neg_analytics']['pinterest']['measurementId'] = $this->measurementId;
     $this->attachments['#attached']['drupalSettings']['neg_analytics']['pinterest']['em'] = $email;

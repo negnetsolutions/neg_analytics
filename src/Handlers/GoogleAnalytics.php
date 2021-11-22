@@ -83,6 +83,10 @@ class GoogleAnalytics extends BaseHandler {
       ],
       'google_analytics_preconnect',
     ];
+    $this->attachments['#attached']['http_header'][] = [
+      'Link',
+      '<https://www.googletagmanager.com>; rel="preconnect"'
+    ];
 
     $customCode = Settings::config()->get('ga_custom_code');
     if (strlen($customCode) > 0) {

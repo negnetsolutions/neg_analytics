@@ -27,6 +27,10 @@ class FacebookAnalytics extends BaseHandler {
       ],
       'facebook_analytics_preconnect',
     ];
+    $this->attachments['#attached']['http_header'][] = [
+      'Link',
+      '<https://connect.facebook.net>; rel="preconnect"'
+    ];
 
     $this->attachments['#attached']['drupalSettings']['neg_analytics']['facebook']['measurementId'] = $this->measurementId;
 
