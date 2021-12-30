@@ -4,23 +4,37 @@
 // Register events.
 events.registerHandler(new function ga() {
   const _ = this;
+  let items = [];
+  let qty = 0;
 
   this.processEvent = function processEvent(event, details) {
     switch (event) {
       case 'addToCart':
-        fbq('track', 'AddToCart', {content_ids: [details.product_id]});
+        fbq('track', 'AddToCart', {content_ids: [details.sku]});
         break;
 
       case 'checkout':
-        let items = [];
-        let qty = 0;
+        items = [];
+        qty = 0;
         for (let i = 0; i < details.items.length; i++) {
           let item = details.items[i];
-          items.push(item.product_id);
+          items.push(item.sku);
           qty += item.qty;
         }
 
         fbq('track', 'InitiateCheckout', {content_ids: items, num_items: qty});
+        break;
+
+      case 'purchase':
+        items = [];
+        qty = 0;
+        for (let i = 0; i < details.items.length; i++) {
+          let item = details.items[i];
+          items.push(item.sku);
+          qty += item.qty;
+        }
+
+        fbq('track', 'Purchase', {content_ids: items, num_items: qty, value: details.value, currency: details.currency});
         break;
     }
 

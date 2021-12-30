@@ -9,6 +9,7 @@ else {
 // Register events.
 events.registerHandler(new function ga() {
   const _ = this;
+  let items;
 
   this.processEvent = function processEvent(event, details) {
     switch (event) {
@@ -21,8 +22,7 @@ events.registerHandler(new function ga() {
       case 'removeFromCart':
         gtag('event', 'remove_from_cart', {
           items: [{
-            'id': details.product_id,
-            'variant': details.sku,
+            'id': details.sku,
             'price': details.price,
             'quantity': details.qty,
           }]
@@ -32,8 +32,7 @@ events.registerHandler(new function ga() {
       case 'addToCart':
         gtag('event', 'add_to_cart', {
           items: [{
-            'id': details.product_id,
-            'variant': details.sku,
+            'id': details.sku,
             'price': details.price,
             'quantity': details.qty,
           }]
@@ -41,28 +40,63 @@ events.registerHandler(new function ga() {
         break;
 
       case 'checkout':
-        let items = [];
-        for (let i = 0; i < details.items.length; i++) {
-          let item = details.items[i];
-          items.push({
-            'id': item.product_id,
-            'variant': item.sku,
-            'price': item.price,
-            'quantity': item.qty
-          });
-        }
+        items = _.fetchCheckoutItems(details.items);
 
         gtag('event', 'begin_checkout', {
+          "transaction_id": details.order_number,
           items: items
+        });
+        break;
+
+      case 'checkout_progress':
+        items = _.fetchCheckoutItems(details.items);
+
+        gtag('event', 'checkout_progress', {
+          "transaction_id": details.order_number,
+          items: items
+        });
+
+        gtag('event', 'set_checkout_option', {
+          "checkout_step": details.checkout_step,
+          "checkout_option": details.checkout_option
+        });
+
+        break;
+
+      case 'purchase':
+        items = _.fetchCheckoutItems(details.items);
+
+        gtag('event', 'purchase', {
+          "transaction_id": details.order_number,
+          "affiliation": details.affiliation,
+          "value": details.value,
+          "currency": details.currency,
+          "tax": details.tax,
+          "shipping": details.shipping,
+          "items": items
         });
         break;
     }
 
   };
+
+  this.fetchCheckoutItems = function fetchCheckoutItems(detailItems) {
+    let items = [];
+    for (let i = 0; i < detailItems.length; i++) {
+      let item = detailItems[i];
+      items.push({
+        'id': item.sku,
+        'price': item.price,
+        'quantity': item.qty
+      });
+    }
+
+    return items;
+  };
+
 });
 
 // Send Events.
 if (drupalSettings.neg_analytics.google.events) {
   eval(drupalSettings.neg_analytics.google.events);
 }
-
