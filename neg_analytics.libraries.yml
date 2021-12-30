@@ -3,14 +3,14 @@ events:
   js:
     js/events.min.js: {minified: true}
 pinterest_analytics:
-  version: 0.01
+  version: 0.02
   js:
     js/pinterest.js: {attributes: {async: true} }
   dependencies:
     - neg_analytics/events
     - core/drupalSettings
 google_analytics:
-  version: 0.01
+  version: 0.02
   js:
     https://www.googletagmanager.com/gtag/js: {type: external, attributes: { async: true }}
     js/ga.js: {attributes: {async: true} }
@@ -18,7 +18,7 @@ google_analytics:
     - neg_analytics/events
     - core/drupalSettings
 facebook_analytics:
-  version: 0.01
+  version: 0.02
   js:
     js/facebook.js: {attributes: {async: true} }
   dependencies:
