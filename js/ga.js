@@ -25,6 +25,8 @@ events.registerHandler(new function ga() {
             'id': details.sku,
             'price': details.price,
             'quantity': details.qty,
+            'brand': (typeof details.brand !== 'undefined') ? details.brand : null,
+            'name': (typeof details.name !== 'undefined') ? details.name : null
           }]
         });
         break;
@@ -35,6 +37,8 @@ events.registerHandler(new function ga() {
             'id': details.sku,
             'price': details.price,
             'quantity': details.qty,
+            'brand': (typeof details.brand !== 'undefined') ? details.brand : null,
+            'name': (typeof details.name !== 'undefined') ? details.name : null
           }]
         });
         break;
@@ -87,7 +91,9 @@ events.registerHandler(new function ga() {
       items.push({
         'id': item.sku,
         'price': item.price,
-        'quantity': item.qty
+        'quantity': item.qty,
+        'brand': (typeof item.brand !== 'undefined') ? item.brand : null,
+        'name': (typeof item.name !== 'undefined') ? item.name : null
       });
     }
 

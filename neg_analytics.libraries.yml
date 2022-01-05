@@ -10,7 +10,7 @@ pinterest_analytics:
     - neg_analytics/events
     - core/drupalSettings
 google_analytics:
-  version: 0.02
+  version: 0.03
   js:
     https://www.googletagmanager.com/gtag/js: {type: external, attributes: { async: true }}
     js/ga.js: {attributes: {async: true} }
