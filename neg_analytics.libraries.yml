@@ -3,7 +3,7 @@ events:
   js:
     js/events.min.js: {minified: true}
 pinterest_analytics:
-  version: 0.02
+  version: 0.03
   js:
     js/pinterest.js: {attributes: {async: true} }
   dependencies:

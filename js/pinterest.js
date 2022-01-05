@@ -21,6 +21,8 @@ events.registerHandler(new function ga() {
               product_id: details.sku,
               product_variant_id: details.variant_id,
               product_price: details.price,
+              product_brand: (typeof details.brand !== 'undefined') ? details.brand : null,
+              product_name: (typeof details.name !== 'undefined') ? details.name : null,
               product_quantity: details.qty
             }
           ]
@@ -37,6 +39,8 @@ events.registerHandler(new function ga() {
             product_id: item.sku,
             product_variant_id: item.variant_id,
             product_quantity: item.qty,
+            product_brand: (typeof details.brand !== 'undefined') ? details.brand : null,
+            product_name: (typeof details.name !== 'undefined') ? details.name : null,
             product_price: item.price
           });
           qty += item.qty;
