@@ -69,4 +69,28 @@ class BaseHandler {
 
   }
 
+
+  /**
+   * Renders products.
+   */
+  protected function renderProducts($items) {
+    $views = [];
+    $tags = [];
+    foreach ($items as $product) {
+      $view = $product->getAnalyticsDetails();
+      $view['#tags'] = $product->getCacheTags();
+
+      if ($view) {
+        $tags = array_merge($tags, $view['#tags']);
+        unset($view['#tags']);
+        $views[] = $view;
+      }
+    }
+
+    return [
+      'views' => $views,
+      'tags' => $tags,
+    ];
+  }
+
 }

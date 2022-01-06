@@ -54,3 +54,8 @@ events.registerHandler(new function ga() {
 
   };
 });
+
+// Send Events.
+if (typeof drupalSettings.neg_analytics.facebook.events !== 'undefined') {
+  eval(drupalSettings.neg_analytics.facebook.events);
+}

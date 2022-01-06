@@ -10,6 +10,65 @@ class FacebookAnalytics extends BaseHandler {
   protected $library = 'neg_analytics/facebook_analytics';
 
   /**
+   * Renders product impressions.
+   */
+  protected function renderImpressions() {
+    $tags = (isset($attachments['#cache']['tags'])) ? $attachments['#cache']['tags'] : [];
+
+    // view_item_list.
+    if (count($this->productImpressions['list']) > 0) {
+      $items = $this->renderProducts($this->productImpressions['list']);
+      $this->addEvent([
+        'event' => 'view_item_list',
+        'items' => $items['views'],
+      ]);
+      $tags = array_merge($tags, $items['tags']);
+    }
+
+    // view_item.
+    if (count($this->productImpressions['detail']) > 0) {
+      $items = $this->renderProducts($this->productImpressions['detail']);
+      $this->addEvent([
+        'event' => 'view_item',
+        'items' => $items['views'],
+      ]);
+      $tags = array_merge($tags, $items['tags']);
+    }
+
+    $this->renderEvents($tags);
+  }
+
+  /**
+   * Renders GA events.
+   */
+  protected function renderEvents($tags) {
+
+    if (count($this->events) === 0) {
+      return;
+    }
+
+    // Merge attachment tags.
+    $this->attachments['#cache']['tags'] = $tags;
+
+    $code = '';
+    foreach ($this->events as $event) {
+      $eventName = 'ViewContent';
+
+      $items = [];
+      foreach ($event['items'] as $item) {
+        $items[] = $item['id'];
+      }
+
+      $json = json_encode($items);
+      $code .= "fbq('track', '{$eventName}', {content_ids: {$json}});\n";
+    }
+
+    if (strlen($code) > 0) {
+      $this->attachments['#attached']['drupalSettings']['neg_analytics']['facebook']['events'] = $code;
+    }
+  }
+
+  /**
    * Renders base code.
    */
   protected function renderBaseCode() {

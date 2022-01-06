@@ -58,3 +58,9 @@ events.registerHandler(new function ga() {
 
   };
 });
+
+
+// Send Events.
+if (typeof drupalSettings.neg_analytics.pinterest.events !== 'undefined') {
+  eval(drupalSettings.neg_analytics.pinterest.events);
+}

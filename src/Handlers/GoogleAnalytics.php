@@ -98,47 +98,4 @@ class GoogleAnalytics extends BaseHandler {
 
   }
 
-  /**
-   * Renders GA View items.
-   */
-  protected function renderProducts($items) {
-    $views = [];
-    $tags = [];
-    foreach ($items as $product) {
-      $view = self::getGoogleAnalyticsProductImpression($product);
-
-      if ($view) {
-        $tags = array_merge($tags, $view['#tags']);
-        unset($view['#tags']);
-        $views[] = $view;
-      }
-    }
-
-    return [
-      'views' => $views,
-      'tags' => $tags,
-    ];
-  }
-
-  /**
-   * Get's google analytics view.
-   */
-  public static function getGoogleAnalyticsProductImpression($product) {
-    $variant = $product->getFirstAvailableVariant();
-    if (!$variant) {
-      return FALSE;
-    }
-
-    $item = [
-      'name' => $product->get('title')->value,
-      'id' => $product->get('product_id')->value,
-      'variant' => $variant->get('sku')->value,
-      'brand' => $product->get('vendor')->value,
-      'price' => $variant->get('price')->value,
-      '#tags' => $product->getCacheTags(),
-    ];
-
-    return $item;
-  }
-
 }

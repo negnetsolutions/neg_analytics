@@ -109,6 +109,6 @@ events.registerHandler(new function ga() {
 });
 
 // Send Events.
-if (drupalSettings.neg_analytics.google.events) {
+if (typeof drupalSettings.neg_analytics.google.events !== 'undefined') {
   eval(drupalSettings.neg_analytics.google.events);
 }
