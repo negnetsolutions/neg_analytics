@@ -38,7 +38,7 @@ class LoadMultipleProductViewsSubscriber implements EventSubscriberInterface {
       // Attempt to add analytics events.
       $items = [];
       foreach ($event->products as $product) {
-        $impression = GoogleAnalytics::getGoogleAnalyticsProductImpression($product);
+        $impression = $product->getAnalyticsDetails();
         if ($impression) {
           unset($impression['#tags']);
           $items[] = $impression;
