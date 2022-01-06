@@ -13,6 +13,12 @@ events.registerHandler(new function ga() {
 
   this.processEvent = function processEvent(event, details) {
     switch (event) {
+      case 'view_item':
+        gtag('event', 'view_item', {
+          items: [details]
+        });
+        break;
+
       case 'view_item_list':
         gtag('event', 'view_item_list', {
           items: details.items

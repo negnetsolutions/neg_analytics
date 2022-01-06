@@ -1,26 +1,26 @@
 events:
-  version: 0.01
+  version: 0.02
   js:
     js/events.min.js: {minified: true}
 pinterest_analytics:
-  version: 0.03
+  version: 0.04
   js:
-    js/pinterest.js: {attributes: {async: true} }
+    js/pinterest.js: {attributes: {defer: true} }
   dependencies:
     - neg_analytics/events
     - core/drupalSettings
 google_analytics:
-  version: 0.03
+  version: 0.04
   js:
-    https://www.googletagmanager.com/gtag/js: {type: external, attributes: { async: true }}
-    js/ga.js: {attributes: {async: true} }
+    https://www.googletagmanager.com/gtag/js: {type: external, attributes: { defer: true }}
+    js/ga.js: {attributes: {defer: true} }
   dependencies:
     - neg_analytics/events
     - core/drupalSettings
 facebook_analytics:
-  version: 0.02
+  version: 0.03
   js:
-    js/facebook.js: {attributes: {async: true} }
+    js/facebook.js: {attributes: {defer: true} }
   dependencies:
     - neg_analytics/events
     - core/drupalSettings

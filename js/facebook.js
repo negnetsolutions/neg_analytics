@@ -9,6 +9,20 @@ events.registerHandler(new function ga() {
 
   this.processEvent = function processEvent(event, details) {
     switch (event) {
+      case 'view_item':
+        fbq('track', 'ViewContent', {content_ids: [details.id]});
+        break;
+
+      case 'view_item_list':
+        items = [];
+        for (let i = 0; i < details.items.length; i++) {
+          let item = details.items[i];
+          items.push(item.id);
+        }
+
+        fbq('track', 'ViewContent', {content_ids: items});
+        break;
+
       case 'addToCart':
         fbq('track', 'AddToCart', {content_ids: [details.sku]});
         break;
