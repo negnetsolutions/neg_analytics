@@ -78,6 +78,11 @@ class BaseHandler {
     $tags = [];
     foreach ($items as $product) {
       $view = $product->getAnalyticsDetails();
+
+      if (!$view) {
+        continue;
+      }
+
       $view['#tags'] = $product->getCacheTags();
 
       if ($view) {

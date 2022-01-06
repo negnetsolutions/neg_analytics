@@ -59,6 +59,10 @@ class FacebookAnalytics extends BaseHandler {
         $items[] = $item['id'];
       }
 
+      if (count($items) === 0) {
+        continue;
+      }
+
       $json = json_encode($items);
       $code .= "fbq('track', '{$eventName}', {content_ids: {$json}});\n";
     }

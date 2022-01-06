@@ -56,6 +56,11 @@ class GoogleAnalytics extends BaseHandler {
     foreach ($this->events as $event) {
       $eventName = $event['event'];
       $items = $event['items'];
+
+      if (count($items) === 0) {
+        continue;
+      }
+
       $json = json_encode($items);
       $code .= "gtag('event', '{$eventName}', { items: {$json}});\n";
     }
