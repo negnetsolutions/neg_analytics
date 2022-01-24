@@ -39,6 +39,7 @@
               'price': details.price,
               'quantity': details.qty,
               'brand': (typeof details.brand !== 'undefined') ? details.brand : null,
+              'category': (typeof details.category !== 'undefined') ? details.category : null,
               'name': (typeof details.name !== 'undefined') ? details.name : null
             }]
           });
@@ -51,6 +52,7 @@
               'price': details.price,
               'quantity': details.qty,
               'brand': (typeof details.brand !== 'undefined') ? details.brand : null,
+              'category': (typeof details.category !== 'undefined') ? details.category : null,
               'name': (typeof details.name !== 'undefined') ? details.name : null
             }]
           });
@@ -106,6 +108,7 @@
           'price': item.price,
           'quantity': item.qty,
           'brand': (typeof item.brand !== 'undefined') ? item.brand : null,
+          'category': (typeof item.category !== 'undefined') ? item.category : null,
           'name': (typeof item.name !== 'undefined') ? item.name : null
         });
       }
