@@ -49,6 +49,11 @@ class ConversionsController extends ControllerBase {
     if (strlen($email) > 0) {
       $data['user_data']['em'] = [hash('sha256', $email)];
     }
+
+    $fbp = \Drupal::request()->cookies->get('_fbp');
+    if ($fbp) {
+      $data['user_data']['fbp'] = $fbp;
+    }
   }
 
   /**
