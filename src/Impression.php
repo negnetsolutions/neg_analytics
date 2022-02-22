@@ -62,7 +62,8 @@ class Impression {
 
       $fbEnabled = Settings::config()->get('pixel_enabled');
       if ($fbEnabled && strlen($id = Settings::config()->get('facebook_pixel')) > 0) {
-        self::$instance->handlers[] = new FacebookAnalytics($id);
+        $token = Settings::config()->get('facebook_api_token');
+        self::$instance->handlers[] = new FacebookAnalytics($id, $token);
       }
 
       $pinterestEnabled = Settings::config()->get('pinterest_enabled');

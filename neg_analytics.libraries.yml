@@ -1,5 +1,5 @@
 events:
-  version: 0.02
+  version: 0.03
   js:
     js/events.min.js: {minified: true}
 render_events:
@@ -10,14 +10,14 @@ render_events:
     - neg_analytics/events
     - core/drupalSettings
 pinterest_analytics:
-  version: 0.06
+  version: 0.07
   js:
     js/pinterest.js: {attributes: {defer: true} }
   dependencies:
     - neg_analytics/events
     - core/drupalSettings
 google_analytics:
-  version: 0.07
+  version: 0.08
   js:
     https://www.googletagmanager.com/gtag/js: {type: external, attributes: { defer: true }}
     js/ga.js: {attributes: {defer: true} }
@@ -25,7 +25,7 @@ google_analytics:
     - neg_analytics/events
     - core/drupalSettings
 facebook_analytics:
-  version: 0.05
+  version: 0.06
   js:
     js/facebook.js: {attributes: {defer: true} }
   dependencies:

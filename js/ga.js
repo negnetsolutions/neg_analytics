@@ -17,7 +17,7 @@
   events.registerHandler(new function ga() {
     const _ = this;
 
-    this.processEvent = function processEvent(event, details) {
+    this.processEvent = function processEvent(eventId, event, details) {
       let items = [];
 
       switch (event) {

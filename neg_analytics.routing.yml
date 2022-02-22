@@ -1,3 +1,9 @@
+neg_analytics.conversions_api.track:
+  path: '/analytics/ping'
+  defaults:
+    _controller: '\Drupal\neg_analytics\Controller\ConversionsController::track'
+  requirements:
+    _permission: 'access content'
 neg_analytics.settings:
   path: '/admin/config/services/analytics'
   defaults:

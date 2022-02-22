@@ -81,6 +81,14 @@ class SettingsForm extends ConfigFormBase {
       '#required' => FALSE,
     ];
 
+    $form['facebook']['facebook_api_token'] = [
+      '#type' => 'textarea',
+      '#title' => t('Conversions API Token'),
+      '#default_value' => $config->get('facebook_api_token'),
+      '#description' => t('Enter your Facebook Conversions API Token to enable the conversions api.'),
+      '#required' => FALSE,
+    ];
+
     $form['pinterest'] = [
       '#type' => 'details',
       '#title' => t('Pinterest'),
@@ -137,6 +145,7 @@ class SettingsForm extends ConfigFormBase {
     $config->set('pinterest_tag_id', $form_state->getValue('pinterest_tag_id'));
     $config->set('pixel_enabled', $form_state->getValue('pixel_enabled'));
     $config->set('facebook_pixel', $form_state->getValue('facebook_pixel'));
+    $config->set('facebook_api_token', $form_state->getValue('facebook_api_token'));
     $config->set('filter_enabled', $form_state->getValue('filter_enabled'));
     $config->set('filter_domain', $form_state->getValue('filter_domain'));
 

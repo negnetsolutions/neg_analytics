@@ -11,10 +11,37 @@
   // Register events.
   events.registerHandler(new function ga() {
     const _ = this;
-    let qty = 0;
+    this.apiUrl = (typeof drupalSettings.neg_analytics.track_url !== 'undefined') ? drupalSettings.neg_analytics.track_url : null;
 
-    this.processEvent = function processEvent(event, details) {
+    this.send = function send(eventId, event, details) {
+      fbq('track', event, details, {eventID: eventId});
+      _.sendToTrackingUrl(eventId, event, details);
+    };
+
+    this.sendToTrackingUrl = function sendToTrackingUrl(eventId, event, details) {
+      if (_.apiUrl) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', _.apiUrl);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        const payload = {
+          'event_name': event,
+          'event_time': Math.floor(Date.now() / 1000),
+          'event_id': eventId,
+          'event_source_url': window.location.href,
+          'action_source': 'website',
+          'user_data': {
+            'client_user_agent': navigator.userAgent
+          },
+          'custom_data': details
+        };
+        xhr.send(JSON.stringify(payload));
+      }
+    };
+
+    this.processEvent = function processEvent(eventId, event, details) {
       let items = [];
+      let qty = 0;
 
       switch (event) {
         case 'search':
@@ -23,7 +50,7 @@
             items.push(item.sku); 
           }
 
-          fbq('track', 'Search', {search_string: details.search_query, content_ids: items});
+          _.send(eventId, 'Search', {search_string: details.search_query, content_ids: items});
           break;
 
         case 'view_item':
@@ -32,7 +59,7 @@
             items.push(item.sku); 
           }
 
-          fbq('track', 'ViewContent', {content_ids: items});
+          _.send(eventId, 'ViewContent', {content_ids: items});
           break;
 
         case 'view_item_list':
@@ -41,11 +68,11 @@
             items.push(item.sku);
           }
 
-          fbq('track', 'ViewContent', {content_ids: items});
+          _.send(eventId, 'ViewContent', {content_ids: items});
           break;
 
         case 'addToCart':
-          fbq('track', 'AddToCart', {content_ids: [details.sku]});
+          _.send(eventId, 'AddToCart', {content_ids: [details.sku]});
           break;
 
         case 'checkout':
@@ -57,7 +84,7 @@
             qty += item.qty;
           }
 
-          fbq('track', 'InitiateCheckout', {content_ids: items, num_items: qty});
+          _.send(eventId, 'InitiateCheckout', {content_ids: items, num_items: qty});
           break;
 
         case 'purchase':
@@ -69,7 +96,7 @@
             qty += item.qty;
           }
 
-          fbq('track', 'Purchase', {content_ids: items, num_items: qty, value: details.value, currency: details.currency});
+          _.send(eventId, 'Purchase', {content_ids: items, num_items: qty, value: details.value, currency: details.currency});
           break;
       }
 

@@ -7,6 +7,10 @@ const NegEvents = function events() {
     _.handlers.push(handler);
   };
 
+  this.getEventId = function getEventId(event) {
+    return event + "_" + Math.floor(Math.random() * Date.now());
+  };
+
   this.triggerEvent = function triggerEvent(event, details, callback) {
     switch (event) {
       case 'addToCart':
@@ -26,8 +30,11 @@ const NegEvents = function events() {
         break;
     }
 
+    // Generate an event id.
+    const eventId = _.getEventId(event);
+
     for (let i = 0; i < _.handlers.length; i++) {
-      _.handlers[i].processEvent(event, details);
+      _.handlers[i].processEvent(eventId, event, details);
     }
 
     if (typeof callback === "function") {
