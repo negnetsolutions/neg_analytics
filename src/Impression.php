@@ -11,8 +11,33 @@ use Drupal\neg_analytics\Handlers\FacebookAnalytics;
  */
 class Impression {
 
+  /**
+   * {@inheritdoc}
+   */
   protected static $instance = FALSE;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $attachments;
+
+  /**
+   * {@inheritdoc}
+   */
   protected $handlers = [];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $productImpressions = [
+    'detail' => [],
+    'list' => [],
+  ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $events = [];
 
   /**
    * Gets the service instance.
@@ -53,9 +78,14 @@ class Impression {
    * Adds a product impression.
    */
   public function addProductImpression($product, $type) {
-    foreach ($this->handlers as $handler) {
-      $handler->addImpression($product, $type);
-    }
+    $this->productImpressions[$type][] = $product;
+  }
+
+  /**
+   * Adds and event.
+   */
+  public function addEvent($event) {
+    $this->events[] = $event;
   }
 
   /**
@@ -77,9 +107,102 @@ class Impression {
       'tags' => ['config:neg_analytics.settings'],
     ];
 
+    $this->attachments = &$attachments;
+
     // Allow handlers to add attachments.
     foreach ($this->handlers as $handler) {
       $handler->render($attachments);
+    }
+
+    // Render product impression events.
+    $this->renderImpressions();
+  }
+
+  /**
+   * Renders impression events.
+   */
+  protected function renderImpressions() {
+    $tags = (isset($this->attachments['#cache']['tags'])) ? $this->attachments['#cache']['tags'] : [];
+
+    // view_item_list.
+    if (count($this->productImpressions['list']) > 0) {
+      $items = $this->renderProducts($this->productImpressions['list']);
+      $this->addEvent([
+        'event' => 'view_item_list',
+        'items' => $items['views'],
+      ]);
+      $tags = array_merge($tags, $items['tags']);
+    }
+
+    // view_item.
+    if (count($this->productImpressions['detail']) > 0) {
+      $items = $this->renderProducts($this->productImpressions['detail']);
+      $this->addEvent([
+        'event' => 'view_item',
+        'items' => $items['views'],
+      ]);
+      $tags = array_merge($tags, $items['tags']);
+    }
+
+    $this->renderEvents($tags);
+  }
+
+  /**
+   * Renders products.
+   */
+  protected function renderProducts($items) {
+    $views = [];
+    $tags = [];
+    foreach ($items as $product) {
+      $view = $product->getAnalyticsDetails();
+
+      if (!$view) {
+        continue;
+      }
+
+      $view['#tags'] = $product->getCacheTags();
+
+      if ($view) {
+        $tags = array_merge($tags, $view['#tags']);
+        unset($view['#tags']);
+        $views[] = $view;
+      }
+    }
+
+    return [
+      'views' => $views,
+      'tags' => $tags,
+    ];
+  }
+
+  /**
+   * Renders events.
+   */
+  protected function renderEvents($tags) {
+
+    if (count($this->events) === 0) {
+      return;
+    }
+
+    // Merge attachment tags.
+    $this->attachments['#cache']['tags'] = $tags;
+
+    $code = '';
+    foreach ($this->events as $event) {
+      $eventName = $event['event'];
+      $items = $event['items'];
+
+      if (count($items) === 0) {
+        continue;
+      }
+
+      $json = json_encode($items);
+      $code .= "events.triggerEvent('{$eventName}', {'items': {$json}});\n";
+    }
+
+    if (strlen($code) > 0) {
+      $this->attachments['#attached']['library'][] = 'neg_analytics/render_events';
+      $this->attachments['#attached']['drupalSettings']['neg_analytics']['events'] = $code;
     }
   }
 

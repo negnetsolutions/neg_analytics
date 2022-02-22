@@ -20,7 +20,36 @@
     const _ = this;
 
     this.processEvent = function processEvent(event, details) {
+      let items = [];
+
       switch (event) {
+        case 'search':
+          for (let i = 0; i < details.items.length; i++) {
+            let item = details.items[i];
+            items.push(item.sku); 
+          }
+
+          pintrk('track', 'Search', {
+            'search_query': details.search_query,
+            'product_id': items
+          });
+          break;
+
+        case 'view_item_list':
+          break;
+
+        case 'view_item':
+          for (let i = 0; i < details.items.length; i++) {
+            let item = details.items[i];
+            items.push(item.sku); 
+          }
+
+          pintrk('track', 'PageVisit', {
+            'product_id': items
+          });
+
+          break;
+
         case 'addToCart':
           pintrk('track', 'AddToCart', {
             line_items: [
@@ -37,7 +66,7 @@
           break;
 
         case 'purchase':
-          let items = [];
+          items = [];
           let qty = 0;
 
           for (let i = 0; i < details.items.length; i++) {
@@ -53,7 +82,7 @@
             qty += item.qty;
           }
 
-          pintrk('track', 'checkout', {
+          pintrk('track', 'Checkout', {
             order_id: details.order_number,
             order_quantity: qty,
             value: details.value,
@@ -65,11 +94,5 @@
 
     };
   });
-
-
-  // Send Events.
-  if (typeof drupalSettings.neg_analytics.pinterest.events !== 'undefined') {
-    eval(drupalSettings.neg_analytics.pinterest.events);
-  }
 
 })();

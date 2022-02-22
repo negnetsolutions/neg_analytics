@@ -16,13 +16,24 @@
   // Register events.
   events.registerHandler(new function ga() {
     const _ = this;
-    let items;
 
     this.processEvent = function processEvent(event, details) {
+      let items = [];
+
       switch (event) {
+        case 'search':
+          gtag('event', 'view_search_results', {
+            search_term: details.search_query
+          });
+          gtag('event', 'view_item_list', {
+            item_list_name: 'Search Results',
+            items: details.items
+          });
+          break;
+
         case 'view_item':
           gtag('event', 'view_item', {
-            items: [details]
+            items: details.items
           });
           break;
 
@@ -118,8 +129,4 @@
 
   });
 
-  // Send Events.
-  if (typeof drupalSettings.neg_analytics.google.events !== 'undefined') {
-    eval(drupalSettings.neg_analytics.google.events);
-  }
 })();

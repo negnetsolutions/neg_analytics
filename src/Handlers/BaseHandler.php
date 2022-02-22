@@ -7,13 +7,19 @@ namespace Drupal\neg_analytics\Handlers;
  */
 class BaseHandler {
 
-  protected $events = [];
-  protected $productImpressions = [
-    'detail' => [],
-    'list' => [],
-  ];
+  /**
+   * {@inheritdoc}
+   */
   protected $measurementId = NULL;
+
+  /**
+   * {@inheritdoc}
+   */
   protected $attachments;
+
+  /**
+   * {@inheritdoc}
+   */
   protected $library = NULL;
 
   /**
@@ -21,20 +27,6 @@ class BaseHandler {
    */
   public function __construct($measurementId) {
     $this->measurementId = $measurementId;
-  }
-
-  /**
-   * Adds an impression.
-   */
-  public function addImpression($product, $type) {
-    $this->productImpressions[$type][] = $product;
-  }
-
-  /**
-   * Adds and event.
-   */
-  public function addEvent($event) {
-    $this->events[] = $event;
   }
 
   /**
@@ -52,7 +44,6 @@ class BaseHandler {
   public function render(&$attachments) {
     $this->attachments = &$attachments;
     $this->renderBaseCode();
-    $this->renderImpressions();
   }
 
   /**
@@ -60,42 +51,6 @@ class BaseHandler {
    */
   protected function renderBaseCode() {
 
-  }
-
-  /**
-   * Renders product impressions.
-   */
-  protected function renderImpressions() {
-
-  }
-
-
-  /**
-   * Renders products.
-   */
-  protected function renderProducts($items) {
-    $views = [];
-    $tags = [];
-    foreach ($items as $product) {
-      $view = $product->getAnalyticsDetails();
-
-      if (!$view) {
-        continue;
-      }
-
-      $view['#tags'] = $product->getCacheTags();
-
-      if ($view) {
-        $tags = array_merge($tags, $view['#tags']);
-        unset($view['#tags']);
-        $views[] = $view;
-      }
-    }
-
-    return [
-      'views' => $views,
-      'tags' => $tags,
-    ];
   }
 
 }

@@ -2,6 +2,13 @@ events:
   version: 0.02
   js:
     js/events.min.js: {minified: true}
+render_events:
+  version: 0.01
+  js:
+    js/render_events.min.js: {attributes: {defer: true}, minified: true}
+  dependencies:
+    - neg_analytics/events
+    - core/drupalSettings
 pinterest_analytics:
   version: 0.05
   js:

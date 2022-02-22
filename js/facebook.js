@@ -11,20 +11,34 @@
   // Register events.
   events.registerHandler(new function ga() {
     const _ = this;
-    let items = [];
     let qty = 0;
 
     this.processEvent = function processEvent(event, details) {
+      let items = [];
+
       switch (event) {
+        case 'search':
+          for (let i = 0; i < details.items.length; i++) {
+            let item = details.items[i];
+            items.push(item.sku); 
+          }
+
+          fbq('track', 'Search', {search_string: details.search_query, content_ids: items});
+          break;
+
         case 'view_item':
-          fbq('track', 'ViewContent', {content_ids: [details.id]});
+          for (let i = 0; i < details.items.length; i++) {
+            let item = details.items[i];
+            items.push(item.sku); 
+          }
+
+          fbq('track', 'ViewContent', {content_ids: items});
           break;
 
         case 'view_item_list':
-          items = [];
           for (let i = 0; i < details.items.length; i++) {
             let item = details.items[i];
-            items.push(item.id);
+            items.push(item.sku);
           }
 
           fbq('track', 'ViewContent', {content_ids: items});
@@ -61,10 +75,5 @@
 
     };
   });
-
-  // Send Events.
-  if (typeof drupalSettings.neg_analytics.facebook.events !== 'undefined') {
-    eval(drupalSettings.neg_analytics.facebook.events);
-  }
 
 })();
