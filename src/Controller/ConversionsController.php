@@ -44,7 +44,11 @@ class ConversionsController extends ControllerBase {
    */
   protected function processData(&$data) {
     $data['user_data']['client_ip_address'] = \Drupal::request()->getClientIp();
-    $data['user_data']['em'] = [hash('sha256', \Drupal::currentUser()->getEmail())];
+
+    $email = \Drupal::currentUser()->getEmail();
+    if (strlen($email) > 0) {
+      $data['user_data']['em'] = [hash('sha256', $email)];
+    }
   }
 
   /**
