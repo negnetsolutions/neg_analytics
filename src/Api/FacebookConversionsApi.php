@@ -39,8 +39,8 @@ class FacebookConversionsApi {
    */
   public function __construct() {
     $config = Settings::config();
-    $this->apiToken = $config->get('facebook_api_token');
-    $this->pixelId = $config->get('facebook_pixel');
+    $this->apiToken = trim($config->get('facebook_api_token'));
+    $this->pixelId = trim($config->get('facebook_pixel'));
   }
 
   /**
