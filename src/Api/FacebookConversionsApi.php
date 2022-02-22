@@ -86,15 +86,20 @@ class FacebookConversionsApi {
 
     $headers['json'] = $data;
 
-    $request = $client->post($this->getEndpointUrl($endpoint), $headers);
-    $response = $request->getBody()->getContents();
+    try {
+      $request = $client->post($this->getEndpointUrl($endpoint), $headers);
+      $response = $request->getBody()->getContents();
 
-    $data = json_decode($response, TRUE);
+      $data = json_decode($response, TRUE);
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('neg_analytics')->error("<pre><code>Facebook Conversions API Error:\n@error\nQuery: \n@query</code></pre>", [
+        '@error' => $e->getMessage(),
+        '@query' => json_encode($data),
+      ]);
 
-    \Drupal::logger('neg_analytics')->debug("<pre><code>Query: \n@query \nResponse: \n @resp</code></pre>", [
-      '@query' => $data,
-      '@resp' => $response,
-    ]);
+      throw new \Exception($e->getMessage());
+    }
 
     return $data;
   }
