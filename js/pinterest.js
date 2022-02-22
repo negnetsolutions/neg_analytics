@@ -59,6 +59,7 @@
                 product_price: details.price,
                 product_brand: (typeof details.brand !== 'undefined') ? details.brand : null,
                 product_name: (typeof details.name !== 'undefined') ? details.name : null,
+                product_category: (typeof details.category !== 'undefined') ? details.category : null,
                 product_quantity: details.qty
               }
             ]
@@ -77,6 +78,7 @@
               product_quantity: item.qty,
               product_brand: (typeof details.brand !== 'undefined') ? details.brand : null,
               product_name: (typeof details.name !== 'undefined') ? details.name : null,
+              product_category: (typeof details.category !== 'undefined') ? details.category : null,
               product_price: item.price
             });
             qty += item.qty;

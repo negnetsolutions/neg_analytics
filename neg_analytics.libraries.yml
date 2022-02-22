@@ -10,7 +10,7 @@ render_events:
     - neg_analytics/events
     - core/drupalSettings
 pinterest_analytics:
-  version: 0.07
+  version: 0.08
   js:
     js/pinterest.js: {attributes: {defer: true} }
   dependencies:
