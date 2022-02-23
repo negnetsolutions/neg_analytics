@@ -16,7 +16,7 @@
   pintrk('page');
 
   // Register events.
-  events.registerHandler(new function ga() {
+  events.registerHandler(new function pinterest() {
     const _ = this;
 
     this.processEvent = function processEvent(eventId, event, details) {
