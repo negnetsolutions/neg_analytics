@@ -1,5 +1,5 @@
 neg_analytics.conversions_api.track:
-  path: '/analytics/ping'
+  path: '/anl/ping'
   defaults:
     _controller: '\Drupal\neg_analytics\Controller\ConversionsController::track'
   requirements:
