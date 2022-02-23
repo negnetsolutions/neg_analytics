@@ -25,7 +25,7 @@ google_analytics:
     - neg_analytics/events
     - core/drupalSettings
 facebook_analytics:
-  version: 0.07
+  version: 0.08
   js:
     js/facebook.js: {attributes: {defer: true} }
   dependencies:

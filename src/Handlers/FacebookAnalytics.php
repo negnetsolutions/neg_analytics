@@ -36,6 +36,8 @@ class FacebookAnalytics extends BaseHandler {
    */
   protected function renderBaseCode() {
 
+    $email = hash('sha256', \Drupal::currentUser()->getEmail());
+
     // Include Pixel scripts.
     $this->attachments['#attached']['html_head'][] = [
       [
@@ -55,6 +57,7 @@ class FacebookAnalytics extends BaseHandler {
     ];
 
     $this->attachments['#attached']['drupalSettings']['neg_analytics']['facebook']['measurementId'] = $this->measurementId;
+    $this->attachments['#attached']['drupalSettings']['neg_analytics']['facebook']['em'] = $email;
 
     $this->attachments['#attached']['html_head'][] = [
       [
@@ -65,7 +68,7 @@ class FacebookAnalytics extends BaseHandler {
           'height' => 1,
           'width' => 1,
           'style' => 'display: none;',
-          'src' => "https://www.facebook.com/tr?id={$this->measurementId}&ev=PageView&noscript=1",
+          'src' => "https://www.facebook.com/tr?id={$this->measurementId}&ud[em]={$email}&ev=PageView&noscript=1",
         ],
       ],
       'facebook_no_script',
