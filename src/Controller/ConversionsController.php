@@ -5,7 +5,6 @@ namespace Drupal\neg_analytics\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Drupal\neg_analytics\Api\FacebookConversionsApi;
 
 /**
  * Class ConversionsController.
