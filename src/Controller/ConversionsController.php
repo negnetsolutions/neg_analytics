@@ -32,6 +32,11 @@ class ConversionsController extends ControllerBase {
       throw new NotFoundHttpException();
     }
 
+    // Check data integrity.
+    if (!is_array($data) || !isset($data[0]) || !isset($data[0]['event_name'])) {
+      throw new NotFoundHttpException();
+    }
+
     // Add additional information to each event.
     $this->processData($data);
 
