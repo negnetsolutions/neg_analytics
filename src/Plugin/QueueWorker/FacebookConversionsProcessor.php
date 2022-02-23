@@ -18,9 +18,20 @@ class FacebookConversionsProcessor extends QueueWorkerBase {
   /**
    * Processes a queue item.
    */
-  public function processItem($data) {
+  public function processItem($events) {
     $api = new FacebookConversionsApi();
-    $api->addEvent($data);
+
+    // Check for a single event.
+    if (isset($events['event_name'])) {
+      $api->addEvent($events);
+    }
+    else {
+      // Queue multiple events.
+      foreach ($events as $event) {
+        $api->addEvent($event);
+      }
+    }
+
     $api->sendEvents();
   }
 

@@ -11,11 +11,21 @@
   // Register events.
   events.registerHandler(new function facebook() {
     const _ = this;
+    this.useBeacon = (typeof navigator.sendBeacon === 'function') ? true : false;
+    this.conversionQueue = [];
+
     this.apiUrl = (typeof drupalSettings.neg_analytics.track_url !== 'undefined') ? drupalSettings.neg_analytics.track_url : null;
 
     this.send = function send(eventId, event, details) {
       fbq('track', event, details, {eventID: eventId});
       _.sendToTrackingUrl(eventId, event, details);
+    };
+
+    this.unload = function unload() {
+      if (_.useBeacon && _.conversionQueue.length > 0) {
+        const jsonPayload = JSON.stringify(_.conversionQueue);
+        navigator.sendBeacon(_.apiUrl, jsonPayload);
+      }
     };
 
     this.sendToTrackingUrl = function sendToTrackingUrl(eventId, event, details) {
@@ -33,13 +43,12 @@
           'custom_data': details
         };
 
-        const jsonPayload = JSON.stringify(payload);
-
-        if (typeof navigator.sendBeacon === 'function') {
-          navigator.sendBeacon(_.apiUrl, jsonPayload);
+        if (_.useBeacon) {
+          _.conversionQueue.push(payload);
         }
         else {
           const xhr = new XMLHttpRequest();
+          const jsonPayload = JSON.stringify([payload]);
           xhr.open('POST', _.apiUrl);
           xhr.setRequestHeader('Content-Type', 'application/json');
           xhr.send(jsonPayload);
@@ -112,6 +121,9 @@
 
     // Track page view.
     _.send("PageView_" + Math.floor(Math.random() * Date.now()), 'PageView');
+
+    // Add unload event listener.
+    window.addEventListener('unload', _.unload);
   });
 
 })();
