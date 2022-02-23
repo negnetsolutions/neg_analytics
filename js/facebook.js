@@ -20,9 +20,6 @@
 
     this.sendToTrackingUrl = function sendToTrackingUrl(eventId, event, details) {
       if (_.apiUrl) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', _.apiUrl);
-        xhr.setRequestHeader('Content-Type', 'application/json');
 
         const payload = {
           'event_name': event,
@@ -35,7 +32,18 @@
           },
           'custom_data': details
         };
-        xhr.send(JSON.stringify(payload));
+
+        const jsonPayload = JSON.stringify(payload);
+
+        if (typeof navigator.sendBeacon === 'function') {
+          navigator.sendBeacon(_.apiUrl, jsonPayload);
+        }
+        else {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', _.apiUrl);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.send(jsonPayload);
+        }
       }
     };
 
