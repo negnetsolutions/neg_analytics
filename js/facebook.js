@@ -25,6 +25,8 @@
       if (_.useBeacon && _.conversionQueue.length > 0) {
         const jsonPayload = JSON.stringify(_.conversionQueue);
         navigator.sendBeacon(_.apiUrl, jsonPayload);
+        // Reset queue.
+        _.conversionQueue = [];
       }
     };
 
@@ -123,7 +125,7 @@
     _.send("PageView_" + Math.floor(Math.random() * Date.now()), 'PageView');
 
     // Add unload event listener.
-    window.addEventListener('unload', _.unload);
+    window.addEventListener('unload', _.unload, false);
   });
 
 })();
