@@ -17,7 +17,7 @@ pinterest_analytics:
     - neg_analytics/events
     - core/drupalSettings
 google_analytics:
-  version: 0.08
+  version: 0.09
   js:
     https://www.googletagmanager.com/gtag/js: {type: external, attributes: { defer: true }}
     js/ga.js: {attributes: {defer: true} }
@@ -25,7 +25,7 @@ google_analytics:
     - neg_analytics/events
     - core/drupalSettings
 facebook_analytics:
-  version: 0.08
+  version: 0.09
   js:
     js/facebook.js: {attributes: {defer: true} }
   dependencies:
