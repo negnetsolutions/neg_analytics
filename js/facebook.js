@@ -124,8 +124,9 @@
     // Track page view.
     _.send("PageView_" + Math.floor(Math.random() * Date.now()), 'PageView');
 
-    // Add unload event listener.
-    window.addEventListener('unload', _.unload, false);
+    // Add event listeners.
+    window.addEventListener('beforeunload', _.unload, false);
+    window.addEventListener('pagehide', _.unload, false);
   });
 
 })();
