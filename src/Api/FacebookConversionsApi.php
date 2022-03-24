@@ -3,6 +3,7 @@
 namespace Drupal\neg_analytics\Api;
 
 use Drupal\neg_analytics\Settings;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Facebook Conversions API.
@@ -92,9 +93,30 @@ class FacebookConversionsApi {
 
       $data = json_decode($response, TRUE);
     }
-    catch (\Exception $e) {
+    catch (RequestException $e) {
+
+      $logMessage = NULL;
+
+      if ($e->hasResponse()) {
+        $response = $e->getResponse();
+        $json_error = json_decode((string) $response->getBody());
+        if ($json_error) {
+
+          if ($json_error->error->error_user_title === 'Event Timestamp Too Old') {
+            // We can just throw away this queue item. It can never be processed.
+            return $json_error;
+          }
+
+          $logMessage = $json_error->error->error_user_msg;
+        }
+      }
+
+      if (!$logMessage) {
+        $logMessage = $e->getMessage();
+      }
+
       \Drupal::logger('neg_analytics')->error("<pre><code>Facebook Conversions API Error:\n@error\nQuery: \n@query</code></pre>", [
-        '@error' => $e->getMessage(),
+        '@error' => $logMessage,
         '@query' => json_encode($data),
       ]);
 
