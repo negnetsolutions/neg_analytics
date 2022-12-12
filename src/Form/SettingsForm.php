@@ -109,6 +109,22 @@ class SettingsForm extends ConfigFormBase {
       '#required' => FALSE,
     ];
 
+    $form['pinterest']['pinterest_account_id'] = [
+      '#type' => 'textfield',
+      '#title' => t('Pinterest Ad Account ID'),
+      '#default_value' => $config->get('pinterest_account_id'),
+      '#description' => t('Enter your pinterest ad account ID'),
+      '#required' => FALSE,
+    ];
+
+    $form['pinterest']['pinterest_conversion_token'] = [
+      '#type' => 'textarea',
+      '#title' => t('Pinterest Conversion Token'),
+      '#default_value' => $config->get('pinterest_conversion_token'),
+      '#description' => t('Enter your pinterest conversion token.'),
+      '#required' => FALSE,
+    ];
+
     $form['debug'] = [
       '#type' => 'details',
       '#title' => t('Debug Options'),
@@ -143,6 +159,8 @@ class SettingsForm extends ConfigFormBase {
     $config->set('ga_custom_code', $form_state->getValue('ga_custom_code'));
     $config->set('pinterest_enabled', $form_state->getValue('pinterest_enabled'));
     $config->set('pinterest_tag_id', $form_state->getValue('pinterest_tag_id'));
+    $config->set('pinterest_account_id', $form_state->getValue('pinterest_account_id'));
+    $config->set('pinterest_conversion_token', $form_state->getValue('pinterest_conversion_token'));
     $config->set('pixel_enabled', $form_state->getValue('pixel_enabled'));
     $config->set('facebook_pixel', $form_state->getValue('facebook_pixel'));
     $config->set('facebook_api_token', $form_state->getValue('facebook_api_token'));
