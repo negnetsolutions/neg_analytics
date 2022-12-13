@@ -47,13 +47,22 @@ class PinterestConversionsApi {
     $config = Settings::config();
     $this->apiToken = trim($config->get('pinterest_conversion_token'));
     $this->accountId = trim($config->get('pinterest_account_id'));
+
+    $filterEnabled = $config->get('filter_enabled');
+    $filterDomain = $config->get('filter_domain');
+    if ($filterEnabled && $filterDomain) {
+      $host = \Drupal::request()->getHost();
+      if ($host == $filterDomain) {
+        $this->testMode = TRUE;
+      }
+    }
   }
 
   /**
    * {@inheritdoc}
    */
   protected function getEndpointUrl($endpoint) {
-    return $this->endpoint . $this->apiVersion . '/';
+    return $this->endpoint . $this->apiVersion . '/' . $endpoint;
   }
 
   /**
@@ -97,11 +106,6 @@ class PinterestConversionsApi {
 
     $headers['json'] = $data;
 
-    \Drupal::logger('neg_analytics')->error("<pre><code>Pinterest Conversions API Call:\n@endpoint\nQuery: \n@query</code></pre>", [
-      '@endpoint' => $endpoint,
-      '@query' => json_encode($headers),
-    ]);
-
     try {
       $request = $client->post($this->getEndpointUrl($endpoint), $headers);
       $response = $request->getBody()->getContents();
@@ -127,7 +131,8 @@ class PinterestConversionsApi {
         $logMessage = $e->getMessage();
       }
 
-      \Drupal::logger('neg_analytics')->error("<pre><code>Pinterest Conversions API Error:\n@error\nQuery: \n@query</code></pre>", [
+      \Drupal::logger('neg_analytics')->error("<pre><code>Pinterest Conversions API Error:\nEndpoint: @endpoint\n@error\nQuery: \n@query</code></pre>", [
+        '@endpoint' => $this->getEndpointUrl($endpoint),
         '@error' => $logMessage,
         '@query' => json_encode($data),
       ]);
