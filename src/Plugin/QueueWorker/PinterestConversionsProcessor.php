@@ -21,6 +21,12 @@ class PinterestConversionsProcessor extends QueueWorkerBase {
   public function processItem($events) {
     $api = new PinterestConversionsApi();
 
+    if (!$api->isConfigured()) {
+      // Skip if conversion tracking isn't configured.
+      \Drupal::logger('neg_analytics')->notice("<pre><code>Pinterest Conversions API: Skipping due to not being configured</code></pre>");
+      return TRUE;
+    }
+
     // Split events into chunks of 1000 events (max per fb request).
     $chunks = array_chunk($events, 1000);
 

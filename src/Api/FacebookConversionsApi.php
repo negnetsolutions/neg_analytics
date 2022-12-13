@@ -47,6 +47,21 @@ class FacebookConversionsApi {
   /**
    * {@inheritdoc}
    */
+  public function isConfigured() {
+    if (strlen($this->apiToken) === 0) {
+      return FALSE;
+    }
+
+    if (strlen($this->pixelId) === 0) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getEndpointUrl($endpoint) {
     return $this->endpoint . $this->apiVersion . '/' . $this->pixelId . '/' . $endpoint . '?access_token=' . $this->apiToken;
   }
