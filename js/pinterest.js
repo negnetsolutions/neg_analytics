@@ -21,18 +21,21 @@
 
     this.processEvent = function processEvent(eventId, event, details) {
       let items = [];
+      let eventType = null;
+      let eventDetails = {};
 
       switch (event) {
         case 'search':
           for (let i = 0; i < details.items.length; i++) {
             let item = details.items[i];
-            items.push(item.sku); 
+            items.push(item.sku);
           }
 
-          pintrk('track', 'Search', {
+          eventType = 'Search';
+          eventDetails = {
             'search_query': details.search_query,
             'product_id': items
-          });
+          };
           break;
 
         case 'view_item_list':
@@ -41,17 +44,19 @@
         case 'view_item':
           for (let i = 0; i < details.items.length; i++) {
             let item = details.items[i];
-            items.push(item.sku); 
+            items.push(item.sku);
           }
 
-          pintrk('track', 'PageVisit', {
+          eventType = 'PageVisit';
+          eventDetails = {
             'product_id': items
-          });
+          };
 
           break;
 
         case 'addToCart':
-          pintrk('track', 'AddToCart', {
+          eventType = 'AddToCart';
+          eventDetails = {
             line_items: [
               {
                 product_id: details.sku,
@@ -63,7 +68,7 @@
                 product_quantity: details.qty
               }
             ]
-          });
+          };
           break;
 
         case 'purchase':
@@ -84,16 +89,24 @@
             qty += item.qty;
           }
 
-          pintrk('track', 'Checkout', {
+          eventType = 'Checkout';
+          eventDetails = {
             order_id: details.order_number,
             order_quantity: qty,
             value: details.value,
             currency: details.currency,
             line_items: items
-          });
+          };
           break;
       }
 
+      if (eventType !== null) {
+        if (typeof details.event_id !== 'undefined') {
+          eventDetails.event_id = details.event_id;
+        }
+
+        pintrk('track', eventType, eventDetails);
+      }
     };
   });
 

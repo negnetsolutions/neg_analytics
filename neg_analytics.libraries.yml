@@ -10,7 +10,7 @@ render_events:
     - neg_analytics/events
     - core/drupalSettings
 pinterest_analytics:
-  version: 0.09
+  version: 0.10
   js:
     js/pinterest.min.js: {attributes: {defer: true} }
   dependencies:
